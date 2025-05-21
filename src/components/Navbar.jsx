@@ -10,6 +10,9 @@ const Navbar = () => {
       <li>
         <NavLink to="addrecipe">Add Recipe</NavLink>
       </li>
+      <li>
+        <NavLink to="allrecipes">All Recipes</NavLink>
+      </li>
     </>
   );
   return (
