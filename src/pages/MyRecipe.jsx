@@ -14,7 +14,7 @@ const MyRecipes = () => {
   useEffect(() => {
     if (!loading && user && user.email) {
       setFetchError(null); 
-      fetch(`https://recipe-book-server-tau.vercel.app/myrecipes/${user.email}`)
+      fetch(`http://localhost:3000/myrecipes/${user.email}`)
         .then(res => {
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);

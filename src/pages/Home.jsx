@@ -6,7 +6,7 @@ const Home = () => {
   const [topRecipes, setTopRecipes] = useState([]);
 
   useEffect(() => {
-    fetch("https://recipe-book-server-tau.vercel.app/top-liked-recipes")
+    fetch("http://localhost:3000/top-liked-recipes")
       .then((res) => res.json())
       .then((data) => setTopRecipes(data));
   }, []);

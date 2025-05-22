@@ -37,13 +37,13 @@ export const router = createBrowserRouter([
       },
       {
         path: "allrecipes",
-        loader: () => fetch("https://recipe-book-server-tau.vercel.app/addrecipes"),
+        loader: () => fetch("http://localhost:3000/addrecipes"),
         Component: AllRecipes
       },
       {
         path: "recipes/:id",
         loader: ({ params }) =>
-          fetch(`https://recipe-book-server-tau.vercel.app/${params.id}`),
+          fetch(`http://localhost:3000/addrecipes/${params.id}`),
         element: (
           <PrivateRoute>
             <DetailsRecipe></DetailsRecipe>
