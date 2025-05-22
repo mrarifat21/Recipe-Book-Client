@@ -9,7 +9,7 @@ const Footer = () => {
       <footer className="bg-neutral text-neutral-content p-5">
       <div className="footer sm:footer-horizontal ">
           <aside>
-          <h6 className="footer-title">TestLog</h6> {/* Added footer-title for branding */}
+          <h6 className="footer-title">TastLog</h6> {/* Added footer-title for branding */}
           <p>
             Turn Your Recipes Into a Global Feast
           </p>

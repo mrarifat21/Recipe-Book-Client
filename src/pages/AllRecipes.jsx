@@ -1,5 +1,7 @@
 import React from "react";
 import { Link, useLoaderData } from "react-router";
+import AllRecipeShow from "../components/AllRecipeShow";
+import { useEffect } from "react";
 
 const AllRecipes = () => {
   const recipes = useLoaderData();
@@ -29,6 +31,9 @@ const AllRecipes = () => {
               </p>
               <p>
                 <strong>Category:</strong> {recipe.categories}
+              </p>
+              <p>
+                <strong>Likes:</strong> {recipe.likecount}
               </p>
               <div className="card-actions justify-start">
                 <Link to={`/recipes/${recipe._id}`} className="btn btn-primary">

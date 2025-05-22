@@ -1,20 +1,29 @@
-import { Link } from 'react-router';
-import Swal from 'sweetalert2'
+import { use } from "react";
+import { Link } from "react-router";
+import Swal from "sweetalert2";
+import { AuthContext } from "../context/AuthProvider";
 
 const AddRecipe = () => {
+  const { user } = use(AuthContext);
+
   const handleAddRecipe = (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-     const selectedCategories = formData.getAll("categories");
+    const selectedCategories = formData.getAll("categories");
     const newRecipe = Object.fromEntries(formData.entries());
     console.log(newRecipe);
 
-    const addinfo ={
+
+
+    const addinfo = {
       ...newRecipe,
       selectedCategories,
-      likecount:0,
-    }
+      likecount: 0,
+      userEmail:user.email,
+      
+    };
+
     //  send new recipe in database
     fetch("http://localhost:3000/addrecipes", {
       method: "POST",
@@ -27,7 +36,6 @@ const AddRecipe = () => {
       .then((data) => {
         if (data.insertedId) {
           Swal.fire({
-            
             icon: "success",
             title: "Your recipe is added",
             showConfirmButton: false,
@@ -37,7 +45,6 @@ const AddRecipe = () => {
 
           console.log("after adding recipe to db 1", data);
         }
-
       });
   };
 
@@ -79,7 +86,9 @@ const AddRecipe = () => {
         <div className="form-control">
           <label className="label">Cuisine Type</label>
           <select name="cuisine" className="select select-bordered">
-            <option>Select your cuisine</option>
+            <option value="" disabled selected>
+              Select your cuisine
+            </option>
             <option>Italian</option>
             <option>Mexican</option>
             <option>Indian</option>
@@ -101,22 +110,24 @@ const AddRecipe = () => {
           <div className="flex flex-wrap gap-3">
             {["Breakfast", "Lunch", "Dinner", "Dessert", "Vegan"].map((cat) => (
               <label key={cat} className="label cursor-pointer gap-2">
-                <input type="checkbox" name="categories"  value={cat} className="checkbox" />
+                <input
+                  type="checkbox"
+                  name="categories"
+                  value={cat}
+                  className="checkbox"
+                />
                 <span className="label-text">{cat}</span>
               </label>
             ))}
           </div>
         </div>
 
-        
         <button type="submit" className="btn btn-primary w-full">
           Add Recipe
         </button>
-        
       </form>
     </div>
   );
 };
 
 export default AddRecipe;
-

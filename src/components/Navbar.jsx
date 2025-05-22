@@ -1,21 +1,24 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
 import Swal from "sweetalert2";
 
 const Navbar = () => {
   const { logOut, user } = useContext(AuthContext);
+  // const navigate =useNavigate();
 
   const handleLogOut = () => {
     console.log("logout clicked");
     logOut()
       .then(() => {
+        // navigate('/')
           Swal.fire({
                     icon: "success",
                     title: "Logout Successfully",
                     showConfirmButton: false,
                     timer: 1500,
                   });
+                  
       })
       .catch((error) => {
         console.log(error);
@@ -45,6 +48,9 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink to="allrecipes">All Recipes</NavLink>
+      </li>
+      <li>
+        <NavLink to="myrecipes">My Recipes</NavLink>
       </li>
     </>
   );

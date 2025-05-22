@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const Registration = () => {
   const { createUserWithEmail, createUserWithGmail, setUser, updateUser } =
@@ -12,17 +13,34 @@ const Registration = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  //  email register
+  //  create user with email and password
   const handleSignIn = (e) => {
     e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const { email, password, ...restFormData } = Object.fromEntries(
+      formData.entries()
+    );
     const name = e.target.name.value;
-    const email = e.target.email.value;
+    // const email = e.target.email.value;
     const photoURL = e.target.photoURL.value;
-    const password = e.target.password.value;
+    // const password = e.target.password.value;
 
     console.log({ email, password });
+    if (/[A-Z]/.test(password) === false) {
+      setErrorMessage("Password must contain at least one uppercase letter.");
+      return;
+    }
+    if (/[a-z]/.test(password) === false) {
+      setErrorMessage("Password must contain at least one lowercase letter.");
+      return;
+    }
+    if (password.length < 6) {
+      setErrorMessage("Password must be at least six characters long.");
+      return;
+    }
+    setErrorMessage("");
 
-    //  googer register
     createUserWithEmail(email, password)
       .then((result) => {
         const user = result.user;
@@ -30,18 +48,42 @@ const Registration = () => {
           .then(() => {
             setUser({ ...user, displayName: name, photoURL: photoURL });
             navigate(`${location.state ? location.state : "/"}`);
-            toast.success("SignIn successfully!");
           })
           .catch((error) => {
             setUser(user);
           });
+
+         const userProfile = {
+          email,
+          ...restFormData,
+          creationTime: result.user?.metadata.creationTime,
+          lastSignInTime: result.user?.metadata.lastSignInTime,
+          uid: result.user.uid,
+        };
+        console.log("hi", email, password, userProfile);
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(userProfile),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.insertedId) {
+              toast.success("SignIn successfully!");
+            }
+            console.log("after profile save", data);
+          });
       })
+
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
+        // const errorMessage = error.message;
         toast.error(errorCode);
       });
   };
+
   // createUserWithGmail===========
   const handelgoogleSignIN = () => {
     createUserWithGmail()
@@ -94,11 +136,10 @@ const Registration = () => {
             required
           />
 
-          {/* You can conditionally render validation errors here */}
-          <p className="text-xs text-red-500 italic">
-            * Password must include uppercase, lowercase, and be at least 6
-            characters
-          </p>
+          
+           {errorMessage && (
+            <div className="text-red-500 text-sm">{errorMessage}</div>
+          )}
 
           <button type="submit" className="btn btn-primary w-full">
             Register

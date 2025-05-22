@@ -23,6 +23,7 @@ const DetailsRecipe1 = () => {
     );
     await response.json();
   };
+ 
 
   return (
     <div className="w-11/12 mx-auto p-6">
