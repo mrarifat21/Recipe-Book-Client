@@ -26,7 +26,7 @@ const Registration = () => {
     const photoURL = e.target.photoURL.value;
     // const password = e.target.password.value;
 
-    console.log({ email, password });
+    // console.log({ email, password });
     if (/[A-Z]/.test(password) === false) {
       setErrorMessage("Password must contain at least one uppercase letter.");
       return;
@@ -53,27 +53,31 @@ const Registration = () => {
             setUser(user);
           });
 
-         const userProfile = {
+        const userProfile = {
           email,
           ...restFormData,
           creationTime: result.user?.metadata.creationTime,
           lastSignInTime: result.user?.metadata.lastSignInTime,
           uid: result.user.uid,
+           provider: "email",
         };
-        console.log("hi", email, password, userProfile);
-        fetch("http://localhost:3000/users", {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(userProfile),
-        })
+        // console.log( email, password, userProfile);
+        fetch(
+          "https://recipe-book-server-tau.vercel.app/users",
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(userProfile),
+          }
+        )
           .then((res) => res.json())
           .then((data) => {
             if (data.insertedId) {
               toast.success("SignIn successfully!");
             }
-            console.log("after profile save", data);
+            // console.log("after profile save", data);
           });
       })
 
@@ -84,13 +88,47 @@ const Registration = () => {
       });
   };
 
-  // createUserWithGmail===========
+  
   const handelgoogleSignIN = () => {
     createUserWithGmail()
       .then((result) => {
-        navigate(`${location.state ? location.state : "/"}`);
-        toast.success("SignIn successfully!");
-        console.log("Google sign-in successful:", result);
+        const user = result.user;
+        const userProfile = {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          creationTime: user.metadata?.creationTime,
+          lastSignInTime: user.metadata?.lastSignInTime,
+          uid: user.uid,
+          provider: "google",
+        };
+
+        // Save Google user to DB
+        fetch(
+          "https://recipe-book-server-tau.vercel.app/users",
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(userProfile),
+          }
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.insertedId) {
+              toast.success("SignIn successfully!");
+            } else {
+              toast.info("Signed in with Google.");
+            }
+            navigate(`${location.state ? location.state : "/"}`);
+          })
+          .catch((err) => {
+            console.error("DB save failed:", err);
+            toast.error("Something went wrong saving user!");
+          });
+
+        // console.log("Google sign-in successful:", result);
       })
       .catch((error) => {
         toast.error("Try again");
@@ -136,8 +174,7 @@ const Registration = () => {
             required
           />
 
-          
-           {errorMessage && (
+          {errorMessage && (
             <div className="text-red-500 text-sm">{errorMessage}</div>
           )}
 

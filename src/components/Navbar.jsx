@@ -8,7 +8,7 @@ const Navbar = () => {
   // const navigate =useNavigate();
 
   const handleLogOut = () => {
-    console.log("logout clicked");
+    // console.log("logout clicked");
     logOut()
       .then(() => {
         // navigate('/')
@@ -21,7 +21,7 @@ const Navbar = () => {
                   
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   };
 

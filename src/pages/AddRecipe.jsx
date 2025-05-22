@@ -12,7 +12,7 @@ const AddRecipe = () => {
     const formData = new FormData(form);
     const selectedCategories = formData.getAll("categories");
     const newRecipe = Object.fromEntries(formData.entries());
-    console.log(newRecipe);
+    // console.log(newRecipe);
 
 
 
@@ -25,7 +25,7 @@ const AddRecipe = () => {
     };
 
     //  send new recipe in database
-    fetch("http://localhost:3000/addrecipes", {
+    fetch("https://recipe-book-server-tau.vercel.app/addrecipes", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -43,7 +43,7 @@ const AddRecipe = () => {
           });
           form.reset();
 
-          console.log("after adding recipe to db 1", data);
+          // console.log("after adding recipe to db ", data);
         }
       });
   };

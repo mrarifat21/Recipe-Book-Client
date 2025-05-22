@@ -1,11 +1,10 @@
 import React from "react";
 import { Link, useLoaderData } from "react-router";
-import AllRecipeShow from "../components/AllRecipeShow";
-import { useEffect } from "react";
+
 
 const AllRecipes = () => {
   const recipes = useLoaderData();
-  console.log(recipes);
+  // console.log(recipes);
   return (
     <div className="w-11/12 mx-auto p-6">
       <h1 className="text-3xl md:text-5xl font-bold text-center mb-8">

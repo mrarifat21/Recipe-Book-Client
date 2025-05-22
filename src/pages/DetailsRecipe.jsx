@@ -4,7 +4,7 @@ import { AiFillLike } from "react-icons/ai";
 
 const DetailsRecipe1 = () => {
   const recipe = useLoaderData();
-  console.log(recipe);
+  // console.log(recipe);
 
   const [likecount, setLikecount] = useState(recipe.likecount || 0);
 
@@ -13,7 +13,7 @@ const DetailsRecipe1 = () => {
     setLikecount(newLikeCount);
 
     const response = await fetch(
-      `http://localhost:3000/addrecipes/like/${recipe._id}`,
+      `https://recipe-book-server-tau.vercel.app/addrecipes/like/${recipe._id}`,
       {
         method: "PATCH",
         headers: {
