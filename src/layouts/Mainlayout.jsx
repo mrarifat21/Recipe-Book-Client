@@ -1,10 +1,13 @@
 import React from 'react';
 import { Outlet } from 'react-router';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { ToastContainer } from 'react-toastify';
 
 const Mainlayout = () => {
     return (
-        <div>
+        <div className='w-11/12 mx-auto'>
+            <ToastContainer />
             <header>
              <Navbar></Navbar>
             </header>
@@ -12,8 +15,8 @@ const Mainlayout = () => {
                 <Outlet></Outlet>
             </main>
 
-            <footer>
-                
+            <footer >
+                <Footer></Footer>
             </footer>
         </div>
     );

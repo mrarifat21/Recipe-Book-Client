@@ -6,6 +6,7 @@ import LogIn from "../pages/LogIn";
 import AddRecipe from "../pages/addRecipe";
 import AllRecipes from "../pages/AllRecipes";
 import DetailsRecipe from "../pages/DetailsRecipe";
+import PrivateRoute from "../context/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -26,18 +27,24 @@ export const router = createBrowserRouter([
       },
       {
         path: "addrecipe",
-        Component: AddRecipe,
+        element: <PrivateRoute>
+          <AddRecipe></AddRecipe>
+        </PrivateRoute>
       },
       {
         path: "allrecipes",
         loader: () => fetch("http://localhost:3000/addrecipes"),
-        Component: AllRecipes,
+        element: <PrivateRoute>
+          <AllRecipes></AllRecipes>
+        </PrivateRoute>
       },
       {
         path: "recipes/:id",
         loader: ({ params }) =>
           fetch(`http://localhost:3000/addrecipes/${params.id}`),
-        Component: DetailsRecipe,
+        element: <PrivateRoute>
+          <DetailsRecipe></DetailsRecipe>
+        </PrivateRoute>,
       },
     ],
   },

@@ -1,40 +1,60 @@
-import { use } from "react";
+import { use, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
+import { toast } from "react-toastify";
 
 const Registration = () => {
-  const { createUserWithEmail, createUserWithGmail } = use(AuthContext);
+  const { createUserWithEmail, createUserWithGmail, setUser, updateUser } =
+    use(AuthContext);
 
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  //  email register
   const handleSignIn = (e) => {
     e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    const formData = new FormData(form);
-    const newUser = Object.fromEntries(formData.entries());
-    console.log(newUser);
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const photoURL = e.target.photoURL.value;
+    const password = e.target.password.value;
+
     console.log({ email, password });
 
+    //  googer register
     createUserWithEmail(email, password)
       .then((result) => {
-        console.log(result);
+        const user = result.user;
+        updateUser({ displayName: name, photoURL: photoURL })
+          .then(() => {
+            setUser({ ...user, displayName: name, photoURL: photoURL });
+            navigate(`${location.state ? location.state : "/"}`);
+            toast.success("SignIn successfully!");
+          })
+          .catch((error) => {
+            setUser(user);
+          });
       })
       .catch((error) => {
-        console.log(error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        toast.error(errorCode);
       });
   };
-      // createUserWithGmail===========
-   const handelgoogleSignIN = ()=>{
-
-      createUserWithGmail()
-      .then(result=>{
+  // createUserWithGmail===========
+  const handelgoogleSignIN = () => {
+    createUserWithGmail()
+      .then((result) => {
+        navigate(`${location.state ? location.state : "/"}`);
+        toast.success("SignIn successfully!");
         console.log("Google sign-in successful:", result);
       })
-      .catch(error=>{
+      .catch((error) => {
+        toast.error("Try again");
         console.error("Google sign-in error:", error);
-      })
-   }
+      });
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">

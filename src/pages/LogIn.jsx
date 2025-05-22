@@ -1,9 +1,12 @@
 import { use } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
+import { toast } from "react-toastify";
 const LogIn = () => {
-  const { LogIn } = use(AuthContext);
+  const { LogIn,createUserWithGmail } = use(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogIn = (e) => {
     e.preventDefault();
@@ -11,15 +14,33 @@ const LogIn = () => {
     const password = e.target.password.value;
     LogIn(email, password)
       .then((result) => {
-        // navigate(`${location.state ? location.state : "/"}`);
-        console.log("user login succesfully", result);
-        console.log("user login succesfully", result.user);
+        navigate(`${location.state ? location.state : "/"}`);
+        toast.success("SignIn successfully!");
       })
       .catch((error) => {
         // const errorCode = error.code;
         // const errorMessage = error.message;
+        toast.error("User not found");
       });
   };
+
+    const handleGoogleLogin = () => {
+    createUserWithGmail()
+      .then((result) => {
+        toast.success("SignIn with Google");
+        navigate("/");
+      })
+      .catch((error) => {
+        toast.error("User not found");
+      });
+  };
+
+
+
+
+
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
       <div className="w-full max-w-md shadow-lg bg-base-100 p-8 rounded-lg">
@@ -55,7 +76,7 @@ const LogIn = () => {
 
         <div className="divider">OR</div>
 
-        <button className="btn btn-outline w-full flex items-center gap-2">
+        <button onClick={handleGoogleLogin} className="btn btn-outline w-full flex items-center gap-2">
           <FcGoogle size={20} />
           Continue with Google
         </button>

@@ -1,12 +1,12 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+
 
 const Home = () => {
   return (
     <div>
         
        
-     <h2> This is home page</h2>
+     <h2 className="h-[500px]"> This is home page</h2>
     </div>
   );
 };
