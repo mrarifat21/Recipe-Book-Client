@@ -13,7 +13,7 @@ const AddRecipe = () => {
     const addinfo ={
       ...newRecipe,
       selectedCategories,
-      likecount:5,
+      likecount:0,
     }
     //  send new recipe in database
     fetch("http://localhost:3000/addrecipes", {
@@ -33,7 +33,7 @@ const AddRecipe = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          // form.reset();
+          form.reset();
 
           console.log("after adding recipe to db 1", data);
         }
