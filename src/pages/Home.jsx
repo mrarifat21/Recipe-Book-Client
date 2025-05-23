@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import Banner from "../components/Banner";
+import Newsletter from "../components/Newsletter";
 
 const Home = () => {
   const [topRecipes, setTopRecipes] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/top-liked-recipes")
+    fetch("http://localhost:3000/addrecipes")
       .then((res) => res.json())
       .then((data) => setTopRecipes(data));
   }, []);
@@ -57,6 +58,10 @@ const Home = () => {
           </Link>
         </div>
       </section>
+
+
+      <Newsletter></Newsletter>
+    
     </div>
   );
 };
