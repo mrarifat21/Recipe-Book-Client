@@ -15,7 +15,7 @@ const MyRecipes = () => {
   useEffect(() => {
     if (!loading && user && user.email) {
       setFetchError(null);
-      fetch(`http://localhost:3000/myrecipes/${user.email}`)
+      fetch(`https://recipe-book-server-tau.vercel.app/myrecipes/${user.email}`)
         .then((res) => {
           if (!res.ok) {
             throw new Error(`HTTP error! status: ${res.status}`);
@@ -60,7 +60,7 @@ const MyRecipes = () => {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/addrecipes/${editingRecipe._id}`,
+        `https://recipe-book-server-tau.vercel.app/addrecipes/${editingRecipe._id}`,
         {
           method: "PUT",
           headers: {
@@ -94,7 +94,7 @@ const MyRecipes = () => {
   //  deleteRecipe
 
   const deleteRecipe = (id) => {
-    fetch(`http://localhost:3000/addrecipes/${id}`, {
+    fetch(`https://recipe-book-server-tau.vercel.app/addrecipes/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

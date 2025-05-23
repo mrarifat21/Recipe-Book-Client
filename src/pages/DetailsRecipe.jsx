@@ -13,7 +13,7 @@ const DetailsRecipe = () => {
     setLikecount(newLikeCount);
 
     const response = await fetch(
-      `http://localhost:3000/addrecipes/like/${recipe._id}`,
+      `https://recipe-book-server-tau.vercel.app/addrecipes/like/${recipe._id}`,
       {
         method: "PATCH",
         headers: {

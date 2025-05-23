@@ -25,7 +25,7 @@ const AddRecipe = () => {
     };
 
     //  send new recipe in database
-    fetch("http://localhost:3000/addrecipes", {
+    fetch("https://recipe-book-server-tau.vercel.app/addrecipes", {
       method: "POST",
       headers: {
         "content-type": "application/json",

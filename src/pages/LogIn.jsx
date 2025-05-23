@@ -39,7 +39,7 @@ const LogIn = () => {
         };
 
         // Save Google user to DB
-        fetch("http://localhost:3000/users", {
+        fetch("https://recipe-book-server-tau.vercel.app/users", {
           method: "POST",
           headers: {
             "content-type": "application/json",

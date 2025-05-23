@@ -63,7 +63,7 @@ const Registration = () => {
         };
         // console.log( email, password, userProfile);
         fetch(
-          "http://localhost:3000/users",
+          "https://recipe-book-server-tau.vercel.app/users",
           {
             method: "POST",
             headers: {
@@ -105,7 +105,7 @@ const Registration = () => {
 
         // Save Google user to DB
         fetch(
-          "http://localhost:3000/users",
+          "https://recipe-book-server-tau.vercel.app/users",
           {
             method: "POST",
             headers: {

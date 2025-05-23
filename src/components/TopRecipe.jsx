@@ -6,7 +6,7 @@ import { Link } from "react-router";
 const TopRecipe = () => {
   const [topRecipes, setTopRecipes] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/top-recipe")
+    fetch("https://recipe-book-server-tau.vercel.app/top-recipe")
       .then((res) => res.json())
       .then((data) => {
         setTopRecipes(data);

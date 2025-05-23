@@ -1,21 +1,16 @@
-import React, { useState, useMemo } from "react";
-import { Link, useLoaderData } from "react-router"; // use "react-router-dom" instead of "react-router"
+import React, { useState } from "react";
+import { Link, useLoaderData } from "react-router";
 
 const AllRecipes = () => {
   const recipes = useLoaderData();
   const [selectedCuisine, setSelectedCuisine] = useState("All");
 
-  // Get unique cuisine types
-  const cuisineTypes = useMemo(() => {
-    const types = recipes.map((recipe) => recipe.cuisine);
-    return ["All", ...new Set(types)];
-  }, [recipes]);
+  const cuisineTypes = ["All", ...new Set(recipes.map((r) => r.cuisine))];
 
-  // Filter recipes based on selected cuisine
-  const filteredRecipes = useMemo(() => {
-    if (selectedCuisine === "All") return recipes;
-    return recipes.filter((recipe) => recipe.cuisine === selectedCuisine);
-  }, [recipes, selectedCuisine]);
+  const filteredRecipes =
+    selectedCuisine === "All"
+      ? recipes
+      : recipes.filter((r) => r.cuisine === selectedCuisine);
 
   return (
     <div className="w-11/12 mx-auto p-6">
@@ -38,7 +33,7 @@ const AllRecipes = () => {
         </select>
       </div>
 
-      {/* Recipe Grid */}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {filteredRecipes.map((recipe) => (
           <div key={recipe._id} className="card bg-base-100 shadow-xl">
