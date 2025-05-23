@@ -94,8 +94,8 @@ const Registration = () => {
       .then((result) => {
         const user = result.user;
         const userProfile = {
-          name: user.displayName,
           email: user.email,
+          name: user.displayName,
           photoURL: user.photoURL,
           creationTime: user.metadata?.creationTime,
           lastSignInTime: user.metadata?.lastSignInTime,

@@ -31,8 +31,7 @@ const Footer = () => {
       </div>
         <div className="text-center mt-10">
           <p>
-            Copyright © {new Date().getFullYear()} - All right reserved by ACME
-            Industries Ltd
+            Copyright © {new Date().getFullYear()} - All right reserved by Taselog
           </p>
         </div>
       </footer>

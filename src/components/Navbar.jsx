@@ -12,13 +12,12 @@ const Navbar = () => {
     logOut()
       .then(() => {
         // navigate('/')
-          Swal.fire({
-                    icon: "success",
-                    title: "Logout Successfully",
-                    showConfirmButton: false,
-                    timer: 1500,
-                  });
-                  
+        Swal.fire({
+          icon: "success",
+          title: "Logout Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((error) => {
         // console.log(error);
@@ -44,11 +43,12 @@ const Navbar = () => {
         <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink to="addrecipe">Add Recipe</NavLink>
-      </li>
-      <li>
         <NavLink to="allrecipes">All Recipes</NavLink>
       </li>
+      <li>
+        <NavLink to="addrecipe">Add Recipe</NavLink>
+      </li>
+
       <li>
         <NavLink to="myrecipes">My Recipes</NavLink>
       </li>
@@ -97,35 +97,35 @@ const Navbar = () => {
           <div className="navbar-end gap-5">
             {user ? (
               <>
-              {/* <button onClick={handleLogOut}>LogOut</button> */}
-               <div className="dropdown dropdown-end">
-                <label tabIndex={0} className="cursor-pointer avatar">
-                  <div className="w-12 rounded-full">
-                    {user?.photoURL ? (
-                      <img src={user.photoURL} alt="Profile" />
-                    ) : (
-                     <p>N/A</p>
-                    )}
-                  </div>
-                </label>
-                <ul
-                  tabIndex={0}
-                  className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-max"
-                >
-                  <li className="text-center text-lg font-semibold">
-                    {user.displayName }
-                  </li>
+                {/* <button onClick={handleLogOut}>LogOut</button> */}
+                <div className="dropdown dropdown-end">
+                  <label tabIndex={0} className="cursor-pointer avatar">
+                    <div className="w-12 rounded-full">
+                      {user?.photoURL ? (
+                        <img src={user.photoURL} alt="Profile" />
+                      ) : (
+                        <p>N/A</p>
+                      )}
+                    </div>
+                  </label>
+                  <ul
+                    tabIndex={0}
+                    className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-max"
+                  >
+                    <li className="text-center text-lg font-semibold">
+                      {user.displayName}
+                    </li>
 
-                  <li>
-                    <button
-                      onClick={handleLogOut}
-                      className="text-lg font-semibold hover:text-red-500"
-                    >
-                      Logout
-                    </button>
-                  </li>
-                </ul>
-              </div>
+                    <li>
+                      <button
+                        onClick={handleLogOut}
+                        className="text-lg font-semibold hover:text-red-500"
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </>
             ) : (
               <>

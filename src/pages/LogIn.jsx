@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
 const LogIn = () => {
-  const { LogIn,createUserWithGmail } = use(AuthContext);
+  const { LogIn, createUserWithGmail } = use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -24,22 +24,49 @@ const LogIn = () => {
       });
   };
 
-    const handleGoogleLogin = () => {
+  const handleGoogleLogin = () => {
     createUserWithGmail()
       .then((result) => {
-        toast.success("SignIn with Google");
-        navigate("/");
+        const user = result.user;
+        const userProfile = {
+          email: user.email,
+          name: user.displayName,
+          photoURL: user.photoURL,
+          creationTime: user.metadata?.creationTime,
+          lastSignInTime: user.metadata?.lastSignInTime,
+          uid: user.uid,
+          provider: "google",
+        };
+
+        // Save Google user to DB
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(userProfile),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.insertedId) {
+              toast.success("SignIn successfully!");
+            } else {
+              toast.info("Signed in with Google.");
+            }
+            navigate(`${location.state ? location.state : "/"}`);
+          })
+          .catch((err) => {
+            console.error("DB save failed:", err);
+            toast.error("Something went wrong saving user!");
+          });
+
+        // console.log("Google sign-in successful:", result);
       })
       .catch((error) => {
-        toast.error("User not found");
+        toast.error("Try again");
+        console.error("Google sign-in error:", error);
       });
   };
-
-
-
-
-
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
@@ -76,7 +103,10 @@ const LogIn = () => {
 
         <div className="divider">OR</div>
 
-        <button onClick={handleGoogleLogin} className="btn btn-outline w-full flex items-center gap-2">
+        <button
+          onClick={handleGoogleLogin}
+          className="btn btn-outline w-full flex items-center gap-2"
+        >
           <FcGoogle size={20} />
           Continue with Google
         </button>
