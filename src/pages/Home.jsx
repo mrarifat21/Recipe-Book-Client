@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import Banner from "../components/Banner";
 import Newsletter from "../components/Newsletter";
+import ContactForm from "../components/ContactForm";
 
 const Home = () => {
   const [topRecipes, setTopRecipes] = useState([]);
@@ -61,6 +62,7 @@ const Home = () => {
 
 
       <Newsletter></Newsletter>
+      <ContactForm></ContactForm>
     
     </div>
   );
