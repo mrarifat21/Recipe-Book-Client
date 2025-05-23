@@ -38,7 +38,7 @@ export const router = createBrowserRouter([
       {
         path: "allrecipes",
         loader: () => fetch("http://localhost:3000/addrecipes"),
-        Component: AllRecipes
+        Component: AllRecipes,
       },
       {
         path: "recipes/:id",
@@ -58,7 +58,6 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      
     ],
   },
   {
