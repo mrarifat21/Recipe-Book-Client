@@ -41,7 +41,7 @@ const AddRecipe = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          form.reset();
+          // form.reset();
 
           // console.log("after adding recipe to db ", data);
         }

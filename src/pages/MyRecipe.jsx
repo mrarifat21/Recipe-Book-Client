@@ -3,6 +3,8 @@ import { use } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import { Link } from "react-router";
 import Loading from "../components/Loading";
+import Swal from "sweetalert2";
+
 
 const MyRecipes = () => {
   const { user, loading } = use(AuthContext);
@@ -89,6 +91,30 @@ const MyRecipes = () => {
     }
   };
 
+  //  deleteRecipe
+
+  const deleteRecipe = (id) => {
+    fetch(`http://localhost:3000/addrecipes/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount){
+          const remainingRecipe = myRecipes.filter(
+          (myRecipe) => myRecipe._id !== id
+        );
+        setMyRecipes(remainingRecipe);
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your account is deleted.",
+          icon: "success",
+        });
+        console.log("after delete", data);
+        }
+        
+      });
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h2 className="text-2xl font-bold mb-6 text-center">
@@ -146,8 +172,6 @@ const MyRecipes = () => {
                   {recipe.likecount} people interested in this recipe
                 </p>
                 <div className="card-actions  mt-4">
-                  <button className="btn btn-primary">Update Recipe</button>
-                  <button className="btn btn-warning">Delete Recipe</button>
                   <div>
                     <button
                       className="btn btn-primary"
@@ -228,6 +252,12 @@ const MyRecipes = () => {
                       </div>
                     </dialog>
                   </div>
+                  <button
+                    onClick={() => deleteRecipe(recipe._id)}
+                    className="btn btn-warning"
+                  >
+                    Delete Recipe
+                  </button>
                 </div>
               </div>
             </div>
