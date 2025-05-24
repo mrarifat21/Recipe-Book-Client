@@ -3,7 +3,6 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
-import Swal from "sweetalert2";
 
 const Registration = () => {
   const { createUserWithEmail, createUserWithGmail, setUser, updateUser } =
@@ -13,7 +12,6 @@ const Registration = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  //  create user with email and password
   const handleSignIn = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -21,17 +19,14 @@ const Registration = () => {
     const { email, password, ...restFormData } = Object.fromEntries(
       formData.entries()
     );
-    const name = e.target.name.value;
-    // const email = e.target.email.value;
-    const photoURL = e.target.photoURL.value;
-    // const password = e.target.password.value;
+    const name = form.name.value;
+    const photoURL = form.photoURL.value;
 
-    // console.log({ email, password });
-    if (/[A-Z]/.test(password) === false) {
+    if (!/[A-Z]/.test(password)) {
       setErrorMessage("Password must contain at least one uppercase letter.");
       return;
     }
-    if (/[a-z]/.test(password) === false) {
+    if (!/[a-z]/.test(password)) {
       setErrorMessage("Password must contain at least one lowercase letter.");
       return;
     }
@@ -44,12 +39,12 @@ const Registration = () => {
     createUserWithEmail(email, password)
       .then((result) => {
         const user = result.user;
-        updateUser({ displayName: name, photoURL: photoURL })
+        updateUser({ displayName: name, photoURL })
           .then(() => {
-            setUser({ ...user, displayName: name, photoURL: photoURL });
-            navigate(`${location.state ? location.state : "/"}`);
+            setUser({ ...user, displayName: name, photoURL });
+            navigate(location.state || "/");
           })
-          .catch((error) => {
+          .catch(() => {
             setUser(user);
           });
 
@@ -59,36 +54,26 @@ const Registration = () => {
           creationTime: result.user?.metadata.creationTime,
           lastSignInTime: result.user?.metadata.lastSignInTime,
           uid: result.user.uid,
-           provider: "email",
+          provider: "email",
         };
-        // console.log( email, password, userProfile);
-        fetch(
-          "https://recipe-book-server-tau.vercel.app/users",
-          {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(userProfile),
-          }
-        )
+
+        fetch("https://recipe-book-server-tau.vercel.app/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(userProfile),
+        })
           .then((res) => res.json())
           .then((data) => {
-            if (data.insertedId) {
-              toast.success("SignIn successfully!");
-            }
-            // console.log("after profile save", data);
+            if (data.insertedId) toast.success("SignIn successfully!");
           });
       })
-
       .catch((error) => {
-        const errorCode = error.code;
-        // const errorMessage = error.message;
-        toast.error(errorCode);
+        toast.error(error.code);
       });
   };
 
-  
   const handelgoogleSignIN = () => {
     createUserWithGmail()
       .then((result) => {
@@ -103,17 +88,13 @@ const Registration = () => {
           provider: "google",
         };
 
-        // Save Google user to DB
-        fetch(
-          "https://recipe-book-server-tau.vercel.app/users",
-          {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(userProfile),
-          }
-        )
+        fetch("https://recipe-book-server-tau.vercel.app/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(userProfile),
+        })
           .then((res) => res.json())
           .then((data) => {
             if (data.insertedId) {
@@ -121,14 +102,12 @@ const Registration = () => {
             } else {
               toast.info("Signed in with Google.");
             }
-            navigate(`${location.state ? location.state : "/"}`);
+            navigate(location.state || "/");
           })
           .catch((err) => {
             console.error("DB save failed:", err);
             toast.error("Something went wrong saving user!");
           });
-
-        // console.log("Google sign-in successful:", result);
       })
       .catch((error) => {
         toast.error("Try again");
@@ -138,47 +117,72 @@ const Registration = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
-      <div className="w-full max-w-md shadow-lg bg-base-100 p-8 rounded-lg">
-        <h2 className="text-3xl font-bold text-center mb-6">Register</h2>
+      <div className="w-full max-w-md shadow-lg bg-base-100 p-8 rounded-xl border border-gray-300 dark:border-primary">
+        <h2 className="text-3xl font-bold text-center mb-6 text-indigo-600 dark:text-indigo-400">
+          Register
+        </h2>
 
         <form onSubmit={handleSignIn} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Name"
-            name="name"
-            className="input input-bordered w-full "
-            required
-          />
+          <div>
+            <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">
+              Name
+            </label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Your name"
+              className="input input-bordered w-full rounded-md border-indigo-300 focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+              required
+            />
+          </div>
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="input input-bordered w-full"
-            required
-          />
+          <div>
+            <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              className="input input-bordered w-full rounded-md border-indigo-300 focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+              required
+            />
+          </div>
 
-          <input
-            type="text"
-            name="photoURL"
-            placeholder="Photo URL"
-            className="input input-bordered w-full"
-            required
-          />
+          <div>
+            <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">
+              Photo URL
+            </label>
+            <input
+              type="text"
+              name="photoURL"
+              placeholder="https://example.com/photo.jpg"
+              className="input input-bordered w-full rounded-md border-indigo-300 focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+              required
+            />
+          </div>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="input input-bordered w-full"
-            required
-          />
+          <div>
+            <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              className="input input-bordered w-full rounded-md border-indigo-300 focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+              required
+            />
+          </div>
 
           {errorMessage && (
             <div className="text-red-500 text-sm">{errorMessage}</div>
           )}
 
-          <button type="submit" className="btn btn-primary w-full">
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg shadow-md transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
             Register
           </button>
         </form>
@@ -193,7 +197,7 @@ const Registration = () => {
           Continue with Google
         </button>
 
-        <p className="text-sm text-center mt-4">
+        <p className="text-sm text-center mt-4 text-gray-600 dark:text-gray-400">
           Already have an account?{" "}
           <Link to="/login" className="link font-medium">
             Login

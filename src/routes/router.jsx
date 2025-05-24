@@ -9,6 +9,7 @@ import DetailsRecipe from "../pages/DetailsRecipe";
 import PrivateRoute from "../context/PrivateRoute";
 import MyRecipe from "../pages/MyRecipe";
 import ErrorPage from "../pages/ErrorPage";
+import ForgotPassword from "../components/ForgotPassord";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: "login",
         Component: LogIn,
+      },
+      {
+        path: "forgotPassowrd",
+        Component: ForgotPassword,
       },
       {
         path: "addrecipe",

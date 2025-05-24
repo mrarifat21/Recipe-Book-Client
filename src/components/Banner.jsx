@@ -1,11 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router'; 
+import { Link } from 'react-router';
 import { useTypewriter, Cursor } from 'react-simple-typewriter';
 
 const Banner = () => {
-
   const [text] = useTypewriter({
-    words: ['Delicious Recipes', 'Culinary Creations', 'Tasteful Journeys', 'Home Cooking Ideas'],
+    words: [' Delicious Recipes', ' Culinary Creations', ' Tasteful Journeys', ' Home Cooking Ideas'],
     loop: {},
     typeSpeed: 70,
     deleteSpeed: 50,
@@ -14,30 +13,34 @@ const Banner = () => {
 
   return (
     <section
-
       className="relative min-h-screen flex items-center justify-center bg-base-100 text-center px-4"
       style={{
         backgroundImage: `url('https://i.ibb.co/YF3B7Jf0/banner.jpg')`,
         backgroundPosition: 'center',
-        backgroundSize: "cover",
+        backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        backgroundBlendMode: 'overlay',
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
       }}
     >
-      
+      {/* Overlay for background */}
       <div className="absolute inset-0 bg-black opacity-30 dark:opacity-50"></div>
 
-      <div className="relative z-10 p-6 rounded-lg max-w-4xl mx-auto">
-        
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-base-content leading-tight mb-4 drop-shadow-lg">
-          Discover <span className="text-indigo-400">{text}</span>
-          <Cursor cursorStyle='|' cursorColor="#818CF8" /> 
+      <div
+        className="relative z-10 p-6 rounded-lg max-w-4xl mx-auto"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 drop-shadow-lg text-white">
+          Discover 
+          <span aria-label={text} className="text-indigo-400">
+            { text}
+          </span>
+          <Cursor cursorStyle="|" cursorColor="#818CF8" />
         </h1>
-       
-        <p className="text-lg sm:text-xl text-base-content mb-8 max-w-2xl mx-auto drop-shadow-md">
+
+        <p className="text-lg sm:text-xl text-gray-200 mb-8 max-w-2xl mx-auto drop-shadow-md">
           Unleash your inner chef with our vast collection of recipes, from quick meals to gourmet delights.
         </p>
+
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Link
             to="/allrecipes"
@@ -50,7 +53,7 @@ const Banner = () => {
           </Link>
           <Link
             to="/addrecipe"
-            className="inline-block rounded-md border-2 border-indigo-600 px-8 py-3 text-lg font-semibold text-indigo-600 shadow-lg
+            className="inline-block rounded-md border-2 border-indigo-600 px-8 py-3 text-lg font-semibold text-indigo-400 shadow-lg
                        hover:bg-indigo-600 hover:text-white transition-colors duration-300 ease-in-out
                        focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
                        dark:border-indigo-400 dark:text-indigo-400 dark:hover:bg-indigo-400 dark:hover:text-white dark:focus-visible:outline-indigo-400"

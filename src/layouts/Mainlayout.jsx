@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 
 const Mainlayout = () => {
   return (
-    <div className="w-11/12 mx-auto">
+    <div>
       <ToastContainer position="bottom-right" autoClose={1500} />
       <header>
         <Navbar></Navbar>

@@ -1,6 +1,60 @@
-@import "tailwindcss";
+ @import "tailwindcss";
 @plugin "daisyui";
 
 .active{
     text-decoration: underline;
+}
+
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+
+@layer base {
+  html {
+    @apply transition-colors duration-300;
+  }
+
+  body {
+    @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* 🌞 Light Theme */
+  /* [data-theme="light"] {
+    --p: #ff7043;        
+    --pf: #ffffff;
+    --s: #a1887f;       
+    --sf: #ffffff;
+    --a: #66bb6a;        
+    --af: #ffffff;
+    --n: #f5f5f5;        
+    --nf: #212121;
+    --b1: #faf9f6;       
+    --b2: #ffffff;
+    --b3: #f3f3f3;
+    --bc: #212121;       
+    --in: #42a5f5;          
+    --wa: #ffa726;       
+    --er: #ef5350;       
+  } */
+
+  /* 🌙 Dark Theme */
+  /* [data-theme="dark"] {
+    --p: #ff8a65;
+    --pf: #121212;
+    --s: #bcaaa4;
+    --sf: #121212;
+    --a: #81c784;
+    --af: #121212;
+    --n: #1e1e1e;
+    --nf: #fafafa;
+    --b1: #121212;
+    --b2: #1e1e1e;
+    --b3: #2c2c2c;
+    --bc: #fafafa;
+    --in: #64b5f6;
+    --su: #81c784;
+    --wa: #ffb74d;
+    --er: #e57373;
+  } */
 }

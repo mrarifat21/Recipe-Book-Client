@@ -3,78 +3,61 @@ import Swal from "sweetalert2";
 
 const ContactForm = () => {
   const handleSubmit = async (e) => {
-    const form = e.target
     e.preventDefault();
+    const form = e.target;
+
     Swal.fire({
       icon: "success",
       title: "Message Sent!",
       text: "Thank you for contacting us. We will get back to you soon!",
       timer: 2000,
+      showConfirmButton: false,
     });
+
     form.reset();
   };
 
   return (
-    <div className="min-h-screen bg-base-200 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-base-100 p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold text-center text-gray-900">
+    <section className="min-h-screen  flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-lg bg-base-100 p-8 rounded-xl shadow-xl">
+        <h2 className="text-3xl font-bold text-center text-base-content">
           Contact Us
         </h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
+        <p className="mt-2 text-center text-sm text-base-content/70">
           Have a question or feedback? We'd love to hear from you!
         </p>
-        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-          <div>
-            <label htmlFor="name" className="sr-only">
-              Your Name
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              className="input input-bordered w-full placeholder-gray-400"
-              placeholder="Your Name"
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="sr-only">
-              Email address
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              className="input input-bordered w-full placeholder-gray-400"
-              placeholder="Email address"
-            />
-          </div>
-          <div>
-            <label htmlFor="message" className="sr-only">
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows="4"
-              required
-              className="textarea textarea-bordered w-full placeholder-gray-400"
-              placeholder="Your Message"
-            ></textarea>
-          </div>
 
-          <div>
-            <button
-              type="submit"
-              className="btn btn-primary w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white"
-            >
-              Send Message
-            </button>
-          </div>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+          <input
+            id="name"
+            name="name"
+            type="text"
+            required
+            placeholder="Your Name"
+            className="input input-bordered w-full"
+          />
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            placeholder="Email Address"
+            className="input input-bordered w-full"
+          />
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            required
+            placeholder="Your Message"
+            className="textarea textarea-bordered w-full"
+          ></textarea>
+          <button type="submit" className="btn btn-primary w-full">
+            Send Message
+          </button>
         </form>
       </div>
-    </div>
+    </section>
   );
 };
 
