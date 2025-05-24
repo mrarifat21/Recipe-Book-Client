@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { use } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
 import { Link } from "react-router";
 import Loading from "../components/Loading";
 import Swal from "sweetalert2";
 
 const MyRecipes = () => {
-  const { user, loading } = use(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const [myRecipes, setMyRecipes] = useState([]);
   const [fetchError, setFetchError] = useState(null);
   const [editingRecipe, setEditingRecipe] = useState(null);
+  const availableCategories = [
+    "Italian",
+    "Mexican",
+    "Indian",
+    "Chinese",
+    "Others",
+  ];
 
   useEffect(() => {
-    if (!loading && user && user.email) {
+    if (!loading && user?.email) {
       setFetchError(null);
       fetch(`https://recipe-book-server-tau.vercel.app/myrecipes/${user.email}`)
         .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
+          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
           return res.json();
         })
-        .then((data) => {
-          setMyRecipes(data);
-        })
+        .then((data) => setMyRecipes(data))
         .catch((error) => {
           console.error("Error fetching user's recipes:", error);
           setFetchError("Failed to load your recipes. Please try again.");
@@ -33,33 +35,22 @@ const MyRecipes = () => {
     }
   }, [user, loading]);
 
-  // Derive all unique categories from the user's recipes
-  const allCategories = Array.from(
-    new Set(myRecipes.flatMap((recipe) => recipe.selectedCategories || []))
-  );
-
-  if (loading) {
-    return <Loading></Loading>;
-  }
-
-  if (fetchError) {
+  if (loading) return <Loading />;
+  if (fetchError)
     return (
       <div className="text-center py-8 text-red-600">Error: {fetchError}</div>
     );
-  }
 
-  // Update Recipe
   const handleUpdateRecipe = async (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
     const updatedRecipe = Object.fromEntries(formData.entries());
+
     const categories = [];
-    form
-      .querySelectorAll("input[name='categories']:checked")
-      .forEach((checkbox) => {
-        categories.push(checkbox.value);
-      });
+    form.querySelectorAll("input[name='categories']:checked").forEach((cb) => {
+      categories.push(cb.value);
+    });
     updatedRecipe.selectedCategories = categories;
 
     try {
@@ -67,54 +58,51 @@ const MyRecipes = () => {
         `https://recipe-book-server-tau.vercel.app/addrecipes/${editingRecipe._id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updatedRecipe),
         }
       );
 
-      if (!res.ok) {
-        throw new Error("Update failed");
-      }
+      if (!res.ok) throw new Error("Update failed");
 
       const updated = await res.json();
-      console.log("Updated recipe:", updated);
-
       document.getElementById("update_modal").close();
-
       setMyRecipes((prev) =>
-        prev.map((r) =>
-          r._id.toString() === updated._id.toString() ? updated : r
-        )
+        prev.map((r) => (r._id === updated._id ? updated : r))
       );
-
       setEditingRecipe(null);
     } catch (error) {
       console.error("Error updating recipe:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Update Failed",
+        text: "Could not update the recipe. Please try again.",
+      });
     }
   };
 
-  // Delete Recipe
   const deleteRecipe = (id) => {
-    fetch(`https://recipe-book-server-tau.vercel.app/addrecipes/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.deletedCount) {
-          const remainingRecipe = myRecipes.filter(
-            (myRecipe) => myRecipe._id !== id
-          );
-          setMyRecipes(remainingRecipe);
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your account is deleted.",
-            icon: "success",
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this recipe?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`https://recipe-book-server-tau.vercel.app/addrecipes/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount) {
+              const remaining = myRecipes.filter((r) => r._id !== id);
+              setMyRecipes(remaining);
+              Swal.fire("Deleted!", "Your recipe has been deleted.", "success");
+            }
           });
-          console.log("after delete", data);
-        }
-      });
+      }
+    });
   };
 
   return (
@@ -126,7 +114,7 @@ const MyRecipes = () => {
 
         {myRecipes.length === 0 ? (
           <p className="text-center text-gray-600 dark:text-gray-300">
-            You haven't uploaded any recipes yet.
+            You haven't uploaded any recipes yet.{" "}
             <Link to="/addrecipe" className="link link-primary font-semibold">
               Add one now!
             </Link>
@@ -170,9 +158,7 @@ const MyRecipes = () => {
                       {recipe.likecount} people interested
                     </p>
                   </div>
-
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {/* Update button */}
                     <button
                       className="btn btn-sm btn-outline btn-primary"
                       onClick={() => {
@@ -182,22 +168,18 @@ const MyRecipes = () => {
                     >
                       Update
                     </button>
-                    {/* Delete button */}
                     <button
                       onClick={() => deleteRecipe(recipe._id)}
                       className="btn btn-sm btn-outline btn-error"
                     >
                       Delete
                     </button>
-                    {/* Details Button */}
-                    <button>
-                      <Link
-                        to={`/recipes/${recipe._id}`}
-                        className="btn btn-sm btn-outline btn-info"
-                      >
-                        Details
-                      </Link>
-                    </button>
+                    <Link
+                      to={`/recipes/${recipe._id}`}
+                      className="btn btn-sm btn-outline btn-info"
+                    >
+                      Details
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -249,11 +231,9 @@ const MyRecipes = () => {
                 className="select select-bordered w-full"
                 defaultValue={editingRecipe.cuisine}
               >
-                <option>Italian</option>
-                <option>Mexican</option>
-                <option>Indian</option>
-                <option>Chinese</option>
-                <option>Others</option>
+                {availableCategories.map((cat) => (
+                  <option key={cat}>{cat}</option>
+                ))}
               </select>
               <input
                 type="number"
@@ -262,31 +242,26 @@ const MyRecipes = () => {
                 className="input input-bordered w-full"
               />
 
-              {/* Categories checkboxes */}
               <div className="flex flex-wrap gap-4">
-                {allCategories.length === 0 ? (
-                  <p className="text-gray-500">No categories available.</p>
-                ) : (
-                  allCategories.map((cat) => (
-                    <label
-                      key={cat}
-                      htmlFor={`update-category-${cat.toLowerCase()}`}
-                      className="flex items-center cursor-pointer gap-2 text-gray-700 dark:text-gray-300"
-                    >
-                      <input
-                        type="checkbox"
-                        id={`update-category-${cat.toLowerCase()}`}
-                        name="categories"
-                        value={cat}
-                        className="checkbox checkbox-primary dark:checkbox-secondary"
-                        defaultChecked={editingRecipe.selectedCategories?.includes(
-                          cat
-                        )}
-                      />
-                      <span>{cat}</span>
-                    </label>
-                  ))
-                )}
+                {availableCategories.map((cat) => (
+                  <label
+                    key={cat}
+                    htmlFor={`update-category-${cat.toLowerCase()}`}
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      id={`update-category-${cat.toLowerCase()}`}
+                      name="categories"
+                      value={cat}
+                      defaultChecked={editingRecipe.selectedCategories?.includes(
+                        cat
+                      )}
+                      className="checkbox checkbox-primary"
+                    />
+                    <span>{cat}</span>
+                  </label>
+                ))}
               </div>
 
               <button type="submit" className="btn btn-primary w-full">
