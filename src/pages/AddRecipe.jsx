@@ -17,6 +17,7 @@ const AddRecipe = () => {
       selectedCategories,
       likecount: 0,
       userEmail: user.email,
+      uid: user.uid,
     };
 
     fetch("https://recipe-book-server-tau.vercel.app/addrecipes", {

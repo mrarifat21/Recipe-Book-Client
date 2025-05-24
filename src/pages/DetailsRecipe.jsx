@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { useLoaderData } from "react-router";
 import { AiFillLike } from "react-icons/ai";
+import { AuthContext } from "../context/AuthProvider";
+import { Tooltip } from "react-tooltip";
 
 const DetailsRecipe = () => {
+  const { user } = use(AuthContext);
   const recipe = useLoaderData();
   const [likecount, setLikecount] = useState(recipe.likecount || 0);
+  console.log(user.uid);
+  console.log(recipe.uid);
 
   const handleLike = async () => {
     const newLikeCount = likecount + 1;
@@ -64,11 +69,20 @@ const DetailsRecipe = () => {
             <div className="text-center">
               <button
                 onClick={handleLike}
-                className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition duration-200"
+                disabled={user.uid === recipe.uid}
+                data-tooltip-id="my-tooltip"
+                data-tooltip-content={
+                  user.uid == recipe.uid
+                    ? "You can't like your own recipe"
+                    : ""
+                }
+                className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <AiFillLike size={20} />
                 Like
               </button>
+
+              <Tooltip id="my-tooltip" />
               <p className="mt-2 text-sm text-base-content/80">
                 {likecount} people interested
               </p>
@@ -78,8 +92,6 @@ const DetailsRecipe = () => {
       </div>
     </div>
   );
-
-  
 };
 
 export default DetailsRecipe;
