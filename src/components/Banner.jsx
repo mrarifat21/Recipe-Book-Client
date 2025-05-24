@@ -52,7 +52,7 @@ const Banner = () => {
           <Tooltip id="my-tooltip" />
           <Link
             to="/allrecipes"
-             data-tooltip-id="my-tooltip"
+            data-tooltip-id="my-tooltip"
             data-tooltip-content="Click here to see all recipes"
             data-tooltip-place="top"
             className="inline-block rounded-md bg-indigo-600 px-8 py-3 text-lg font-semibold text-white shadow-lg
