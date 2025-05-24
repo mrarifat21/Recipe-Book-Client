@@ -10,11 +10,12 @@ const MyRecipes = () => {
   const [fetchError, setFetchError] = useState(null);
   const [editingRecipe, setEditingRecipe] = useState(null);
   const availableCategories = [
-    "Italian",
-    "Mexican",
-    "Indian",
-    "Chinese",
-    "Others",
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Dessert",
+    "Vegan",
+    
   ];
 
   useEffect(() => {
