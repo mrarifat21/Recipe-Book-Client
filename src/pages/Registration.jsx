@@ -116,8 +116,8 @@ const Registration = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
-      <div className="w-full max-w-md shadow-lg bg-base-100 p-8 rounded-xl border border-gray-300 dark:border-primary">
+    <div className="min-h-screen flex items-center justify-center bg-base-200 px-4 py-10">
+      <div className=" max-w-md w-11/12 mx-auto shadow-lg  dark:bg-gray-900 p-8 rounded-xl border border-gray-300 dark:border-primary">
         <h2 className="text-3xl font-bold text-center mb-6 text-indigo-600 dark:text-indigo-400">
           Register
         </h2>

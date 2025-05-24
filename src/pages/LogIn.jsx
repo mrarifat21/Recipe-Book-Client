@@ -66,7 +66,7 @@ const LogIn = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
-      <div className="w-full max-w-md bg-gray-100 dark:bg-gray-900 border-2 border-gray-300 dark:border-primary p-8 rounded-xl shadow-lg">
+      <div className="max-w-md w-11/12 mx-auto bg-gray-100 dark:bg-gray-900 border-2 border-gray-300 dark:border-primary p-8 rounded-xl shadow-lg">
         <h2 className="text-3xl font-extrabold mb-8 text-center text-indigo-600 dark:text-indigo-400">
           Login
         </h2>
