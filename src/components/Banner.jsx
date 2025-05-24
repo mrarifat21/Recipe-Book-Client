@@ -1,10 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router';
-import { useTypewriter, Cursor } from 'react-simple-typewriter';
+import React from "react";
+import { Link } from "react-router";
+import { useTypewriter, Cursor } from "react-simple-typewriter";
+import { Tooltip } from "react-tooltip";
 
 const Banner = () => {
   const [text] = useTypewriter({
-    words: [' Delicious Recipes', ' Culinary Creations', ' Tasteful Journeys', ' Home Cooking Ideas'],
+    words: [
+      " Delicious Recipes",
+      " Culinary Creations",
+      " Tasteful Journeys",
+      " Home Cooking Ideas",
+    ],
     loop: {},
     typeSpeed: 70,
     deleteSpeed: 50,
@@ -15,10 +21,10 @@ const Banner = () => {
     <section
       className="relative min-h-screen flex items-center justify-center bg-base-100 text-center px-4"
       style={{
-        backgroundImage: `url('https://i.ibb.co/YF3B7Jf0/banner.jpg')`,
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
+        backgroundImage: `url('https://i.ibb.co.com/v4G3z1pJ/banner.jpg')`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
       }}
     >
       {/* Overlay for background */}
@@ -30,20 +36,25 @@ const Banner = () => {
         aria-atomic="true"
       >
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 drop-shadow-lg text-white">
-          Discover 
+          Discover
           <span aria-label={text} className="text-indigo-400">
-            { text}
+            {text}
           </span>
           <Cursor cursorStyle="|" cursorColor="#818CF8" />
         </h1>
 
         <p className="text-lg sm:text-xl text-gray-200 mb-8 max-w-2xl mx-auto drop-shadow-md">
-          Unleash your inner chef with our vast collection of recipes, from quick meals to gourmet delights.
+          Unleash your inner chef with our vast collection of recipes, from
+          quick meals to gourmet delights.
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <Tooltip id="my-tooltip" />
           <Link
             to="/allrecipes"
+             data-tooltip-id="my-tooltip"
+            data-tooltip-content="Click here to see all recipes"
+            data-tooltip-place="top"
             className="inline-block rounded-md bg-indigo-600 px-8 py-3 text-lg font-semibold text-white shadow-lg
                        hover:bg-indigo-700 transition-colors duration-300 ease-in-out
                        focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600

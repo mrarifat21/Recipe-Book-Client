@@ -33,6 +33,11 @@ const MyRecipes = () => {
     }
   }, [user, loading]);
 
+  // Derive all unique categories from the user's recipes
+  const allCategories = Array.from(
+    new Set(myRecipes.flatMap((recipe) => recipe.selectedCategories || []))
+  );
+
   if (loading) {
     return <Loading></Loading>;
   }
@@ -90,8 +95,7 @@ const MyRecipes = () => {
     }
   };
 
-  //  deleteRecipe
-
+  // Delete Recipe
   const deleteRecipe = (id) => {
     fetch(`https://recipe-book-server-tau.vercel.app/addrecipes/${id}`, {
       method: "DELETE",
@@ -113,7 +117,6 @@ const MyRecipes = () => {
       });
   };
 
-  
   return (
     <div className="min-h-screen bg-base-200 px-4 py-10">
       <div className="max-w-6xl mx-auto">
@@ -123,7 +126,7 @@ const MyRecipes = () => {
 
         {myRecipes.length === 0 ? (
           <p className="text-center text-gray-600 dark:text-gray-300">
-            You haven't uploaded any recipes yet.{" "}
+            You haven't uploaded any recipes yet.
             <Link to="/addrecipe" className="link link-primary font-semibold">
               Add one now!
             </Link>
@@ -169,6 +172,7 @@ const MyRecipes = () => {
                   </div>
 
                   <div className="mt-4 flex flex-wrap gap-2">
+                    {/* Update button */}
                     <button
                       className="btn btn-sm btn-outline btn-primary"
                       onClick={() => {
@@ -178,19 +182,22 @@ const MyRecipes = () => {
                     >
                       Update
                     </button>
-
+                    {/* Delete button */}
                     <button
                       onClick={() => deleteRecipe(recipe._id)}
                       className="btn btn-sm btn-outline btn-error"
                     >
                       Delete
                     </button>
-                    <Link
-                      to={`/recipes/${recipe._id}`}
-                      className="btn btn-sm btn-outline btn-info"
-                    >
-                      Details
-                    </Link>
+                    {/* Details Button */}
+                    <button>
+                      <Link
+                        to={`/recipes/${recipe._id}`}
+                        className="btn btn-sm btn-outline btn-info"
+                      >
+                        Details
+                      </Link>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -254,6 +261,33 @@ const MyRecipes = () => {
                 defaultValue={editingRecipe.prepTime}
                 className="input input-bordered w-full"
               />
+
+              {/* Categories checkboxes */}
+              <div className="flex flex-wrap gap-4">
+                {allCategories.length === 0 ? (
+                  <p className="text-gray-500">No categories available.</p>
+                ) : (
+                  allCategories.map((cat) => (
+                    <label
+                      key={cat}
+                      htmlFor={`update-category-${cat.toLowerCase()}`}
+                      className="flex items-center cursor-pointer gap-2 text-gray-700 dark:text-gray-300"
+                    >
+                      <input
+                        type="checkbox"
+                        id={`update-category-${cat.toLowerCase()}`}
+                        name="categories"
+                        value={cat}
+                        className="checkbox checkbox-primary dark:checkbox-secondary"
+                        defaultChecked={editingRecipe.selectedCategories?.includes(
+                          cat
+                        )}
+                      />
+                      <span>{cat}</span>
+                    </label>
+                  ))
+                )}
+              </div>
 
               <button type="submit" className="btn btn-primary w-full">
                 Submit Update

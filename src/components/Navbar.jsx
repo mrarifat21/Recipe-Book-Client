@@ -93,8 +93,9 @@ const Navbar = () => {
               {navLinks}
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost text-xl font-bold text-primary">
-            TastLog
+          <Link to="/" className=" items-center text-xl font-bold text-primary flex">
+            <img src="https://i.ibb.co.com/tk0SJqp/logo.png" alt="logo" className="w-15 h-15" />
+            <h2 className="hidden md:block">TastLog</h2>
           </Link>
         </div>
 
@@ -102,7 +103,7 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1 space-x-2">{navLinks}</ul>
         </div>
 
-        <div className="navbar-end space-x-4">
+        <div className="navbar-end">
           {user ? (
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="cursor-pointer avatar">
@@ -134,7 +135,7 @@ const Navbar = () => {
               </ul>
             </div>
           ) : (
-            <div className="space-x-2">
+            <div className="flex gap-2">
               <Link to="/login" className="btn btn-sm btn-outline">
                 Login
               </Link>

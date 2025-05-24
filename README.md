@@ -1,12 +1,40 @@
-# React + Vite
+# 🍽️ Recipe Book - Client Side
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive Recipe Management web application where users can add, update, delete, and browse recipes. Built with React, Firebase Authentication, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🔐 User Authentication (Login / Register) with Firebase
+- 📖 View all recipes and recipe details
+- 📝 Add, edit, and delete personal recipes
+- ❤️ Like system to show recipe popularity
+- 📂 Filter recipes by categories and cuisines
+- 🌙 Light/Dark mode support (via DaisyUI)
+- 🧠 Real-time form validation and feedback with SweetAlert2 and Toastify
 
-## Expanding the ESLint configuration
+## 🧪 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Tech           | Usage                           |
+|----------------|---------------------------------|
+| React          | UI Library                      |
+| React Router   | Client-side Routing             |
+| Firebase       | Authentication                  |
+| Tailwind CSS   | Utility-first CSS styling       |
+| DaisyUI        | Component library for Tailwind  |
+| Vite           | Build tool for fast dev server  |
+| SweetAlert2    | Alert modals                    |
+| React Toastify | Toast notifications             |
+| React Icons    | Icon support                    |
+
+## 📦 Installation
+
+### Prerequisites
+
+- Node.js and npm installed
+- Firebase project setup
+
+
+
+## 🌐 Live Website
+
+🔗 [View Live Site](https://tastelog-cdee1.web.app/)
