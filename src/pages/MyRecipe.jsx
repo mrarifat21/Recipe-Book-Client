@@ -15,8 +15,8 @@ const MyRecipes = () => {
     "Dinner",
     "Dessert",
     "Vegan",
-    
   ];
+  const availableCusine = ["Italian", "Mexican", "Indian", "Chinese", "Others"];
 
   useEffect(() => {
     if (!loading && user?.email) {
@@ -232,7 +232,7 @@ const MyRecipes = () => {
                 className="select select-bordered w-full"
                 defaultValue={editingRecipe.cuisine}
               >
-                {availableCategories.map((cat) => (
+                {availableCusine.map((cat) => (
                   <option key={cat}>{cat}</option>
                 ))}
               </select>
