@@ -116,7 +116,7 @@ const MyRecipes = () => {
         {myRecipes.length === 0 ? (
           <p className="text-center text-gray-600 dark:text-gray-300">
             You haven't uploaded any recipes yet.{" "}
-            <Link to="/addrecipe" className="link link-primary font-semibold">
+            <Link to="/dashboard/addrecipe" className="link link-primary font-semibold">
               Add one now!
             </Link>
           </p>
