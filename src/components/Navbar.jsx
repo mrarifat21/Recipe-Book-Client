@@ -57,18 +57,31 @@ const Navbar = () => {
       <li>
         <NavLink to="/allrecipes">All Recipes</NavLink>
       </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </li>
+          {/* <li>
+            <NavLink to="/addrecipe">Add Recipe</NavLink>
+          </li>
+          <li>
+            <NavLink to="/myrecipes">My Recipes</NavLink>
+          </li> */}
+        </>
+      )}
       <li>
-        <NavLink to="/addrecipe">Add Recipe</NavLink>
+        <NavLink to="/about">About</NavLink>
       </li>
       <li>
-        <NavLink to="/myrecipes">My Recipes</NavLink>
+        <NavLink to="/contact">Contact</NavLink>
       </li>
     </>
   );
 
   return (
-    <div className="bg-base-100 ">
-      <div className="navbar bg-base-100  px-4 md:px-6 lg:px-10 w-11/12 mx-auto">
+    <div className="bg-base-300 ">
+      <div className="navbar   px-4 md:px-6 lg:px-10 w-11/12 mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -93,8 +106,15 @@ const Navbar = () => {
               {navLinks}
             </ul>
           </div>
-          <Link to="/" className=" items-center text-xl font-bold text-primary flex">
-            <img src="https://i.ibb.co.com/tk0SJqp/logo.png" alt="logo" className="w-15 h-15" />
+          <Link
+            to="/"
+            className=" items-center text-xl font-bold text-primary flex"
+          >
+            <img
+              src="https://i.ibb.co.com/tk0SJqp/logo.png"
+              alt="logo"
+              className="w-15 h-15"
+            />
             <h2 className="hidden md:block">TastLog</h2>
           </Link>
         </div>
@@ -121,16 +141,16 @@ const Navbar = () => {
                 tabIndex={0}
                 className="mt-3 z-[1] p-3 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
               >
-                <li className="text-center font-medium text-base-content">
+                <li className=" font-medium text-base-content">
                   {user.displayName}
                 </li>
-                <li>
-                  <button
+                <li
+                  
                     onClick={handleLogOut}
-                    className="text-left font-semibold hover:text-error"
+                    className="cursor-pointer font-semibold hover:text-error"
                   >
                     Logout
-                  </button>
+                  
                 </li>
               </ul>
             </div>

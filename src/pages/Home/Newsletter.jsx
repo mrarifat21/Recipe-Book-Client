@@ -16,9 +16,9 @@ const Newsletter = () => {
   };
 
   return (
-    <section className=" text-base-content py-12 px-4 sm:px-6 lg:px-8 my-30">
+    <section className="bg-base-100 border shadow-xl text-base-content py-12 px-4 sm:px-6 lg:px-8 mt-20">
       <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-10">
           Stay Updated with Our Latest Recipes!
         </h2>
         <p className="text-lg opacity-80 mb-6">

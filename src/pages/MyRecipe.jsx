@@ -21,7 +21,7 @@ const MyRecipes = () => {
   useEffect(() => {
     if (!loading && user?.email) {
       setFetchError(null);
-      fetch(`https://recipe-book-server-tau.vercel.app/myrecipes/${user.email}`)
+      fetch(`${import.meta.env.VITE_API_URL}/myrecipes/${user.email}`)
         .then((res) => {
           if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
           return res.json();
@@ -56,7 +56,7 @@ const MyRecipes = () => {
 
     try {
       const res = await fetch(
-        `https://recipe-book-server-tau.vercel.app/addrecipes/${editingRecipe._id}`,
+        `${import.meta.env.VITE_API_URL}/addrecipes/${editingRecipe._id}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -91,7 +91,7 @@ const MyRecipes = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://recipe-book-server-tau.vercel.app/addrecipes/${id}`, {
+        fetch(`${import.meta.env.VITE_API_URL}/addrecipes/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

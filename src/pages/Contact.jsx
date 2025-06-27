@@ -1,7 +1,7 @@
 import React from "react";
 import Swal from "sweetalert2";
 
-const ContactForm = () => {
+const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -18,9 +18,9 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="min-h-screen  flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+    <section className="min-h-screen  flex items-center justify-center mt-20 px-4 py-12 sm:px-6 lg:px-8">
       <div className="w-full max-w-lg bg-base-100 p-8 rounded-xl shadow-xl">
-        <h2 className="text-3xl font-bold text-center text-base-content">
+        <h2 className="text-3xl font-bold text-center text-base-content mb-10">
           Contact Us
         </h2>
         <p className="mt-2 text-center text-sm text-base-content/70">
@@ -61,4 +61,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default Contact;

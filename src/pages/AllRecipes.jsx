@@ -49,9 +49,9 @@ const AllRecipes = () => {
               <h2 className="text-xl font-semibold text-base-content">
                 {recipe.title}
               </h2>
-              <p className="text-sm text-base-content/80">
+              {/* <p className="text-sm text-base-content/80">
                 <strong>Cuisine:</strong> {recipe.cuisine}
-              </p>
+              </p> */}
               <p className="text-sm text-base-content/80">
                 <strong>Prep Time:</strong> {recipe.prepTime}
               </p>

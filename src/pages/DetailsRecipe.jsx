@@ -16,7 +16,7 @@ const DetailsRecipe = () => {
     setLikecount(newLikeCount);
 
     await fetch(
-      `https://recipe-book-server-tau.vercel.app/addrecipes/like/${recipe._id}`,
+      `${import.meta.env.VITE_API_URL}/addrecipes/like/${recipe._id}`,
       {
         method: "PATCH",
         headers: {

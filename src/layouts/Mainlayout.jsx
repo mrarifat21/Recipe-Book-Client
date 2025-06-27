@@ -8,7 +8,7 @@ const Mainlayout = () => {
   return (
     <div>
       <ToastContainer position="bottom-right" autoClose={1500} />
-      <header>
+      <header className="sticky top-0 z-100">
         <Navbar></Navbar>
       </header>
       <main>

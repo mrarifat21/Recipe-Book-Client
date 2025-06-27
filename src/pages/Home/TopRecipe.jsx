@@ -4,9 +4,9 @@ import { Link } from "react-router";
 const TopRecipe = () => {
   const [topRecipes, setTopRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
-
+// ${import.meta.env.VITE_API_URL}/top-recipe
   useEffect(() => {
-    fetch("https://recipe-book-server-tau.vercel.app/top-recipe")
+    fetch(`${import.meta.env.VITE_API_URL}/top-recipe`)
       .then((res) => res.json())
       .then((data) => {
         setTopRecipes(data);
@@ -32,12 +32,12 @@ const TopRecipe = () => {
   }
 
   return (
-    <section className="w-11/12 mx-auto my-10">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900 dark:text-gray-100">
+    <section className="w-11/12 mx-auto mt-20">
+      <h2 className="text-2xl md:text-4xl font-bold text-center mb-10 text-gray-900 dark:text-gray-100">
         Top Liked Recipes
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {topRecipes.map((recipe) => (
           <div
             key={recipe._id}

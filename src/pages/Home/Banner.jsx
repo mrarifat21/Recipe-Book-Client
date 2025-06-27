@@ -19,7 +19,7 @@ const Banner = () => {
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center bg-base-100 text-center px-4"
+      className="relative min-h-[80vh] flex items-center justify-center bg-base-100 text-center px-4"
       style={{
         backgroundImage: `url('https://i.ibb.co.com/v4G3z1pJ/banner.jpg')`,
         backgroundPosition: "center",

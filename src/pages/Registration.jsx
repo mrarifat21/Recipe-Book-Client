@@ -57,7 +57,7 @@ const Registration = () => {
           provider: "email",
         };
 
-        fetch("https://recipe-book-server-tau.vercel.app/users", {
+        fetch(`${import.meta.env.VITE_API_URL}/users`, {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -88,7 +88,7 @@ const Registration = () => {
           provider: "google",
         };
 
-        fetch("https://recipe-book-server-tau.vercel.app/users", {
+        fetch(`${import.meta.env.VITE_API_URL}/users`, {
           method: "POST",
           headers: {
             "content-type": "application/json",

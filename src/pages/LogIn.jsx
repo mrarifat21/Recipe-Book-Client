@@ -37,7 +37,7 @@ const LogIn = () => {
           provider: "google",
         };
 
-        fetch("https://recipe-book-server-tau.vercel.app/users", {
+        fetch(`${import.meta.env.VITE_API_URL}/users`, {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -110,7 +110,7 @@ const LogIn = () => {
 
           {/* Forgot Password */}
           <div className="text-right">
-            <Link to='/forgotPassowrd'> 
+            <Link to='/forgotPassword'> 
             <button type="button" className="link text-sm text-indigo-600 dark:text-indigo-400">
               Forgot Password?
             </button>

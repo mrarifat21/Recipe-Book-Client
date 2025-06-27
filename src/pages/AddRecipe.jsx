@@ -20,7 +20,7 @@ const AddRecipe = () => {
       uid: user.uid,
     };
 
-    fetch("https://recipe-book-server-tau.vercel.app/addrecipes", {
+    fetch(`${import.meta.env.VITE_API_URL}/addrecipes`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -42,7 +42,7 @@ const AddRecipe = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-10 bg-gray-100 my-10 dark:bg-gray-900  rounded-xl dark:border-primary border-gray-300 border-2">
+    <div className="max-w-3xl mx-auto px-6 py-10 bg-gray-100 my-10 dark:bg-gray-900  rounded-xl dark:border-primary border-gray-300 border-2 ">
       <h2 className="text-3xl font-extrabold mb-8 text-center text-indigo-600 dark:text-indigo-400">
         Add a New Recipe
       </h2>
