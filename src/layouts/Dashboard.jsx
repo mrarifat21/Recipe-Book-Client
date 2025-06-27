@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router";
+// import Navbar from "../components/Navbar";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -13,6 +14,7 @@ const Dashboard = () => {
 
   return (
     <>
+    {/* <Navbar></Navbar> */}
       {/* Mobile Top Bar */}
       <div className="bg-base-100 text-base-content flex items-center justify-between p-4 md:hidden border-b border-base-300">
         <h2 className="text-lg font-bold">Dashboard</h2>
