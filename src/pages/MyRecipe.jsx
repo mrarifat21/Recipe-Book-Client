@@ -116,75 +116,71 @@ const MyRecipes = () => {
         {myRecipes.length === 0 ? (
           <p className="text-center text-gray-600 dark:text-gray-300">
             You haven't uploaded any recipes yet.{" "}
-            <Link to="/dashboard/addrecipe" className="link link-primary font-semibold">
+            <Link
+              to="/dashboard/addrecipe"
+              className="link link-primary font-semibold"
+            >
               Add one now!
             </Link>
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {myRecipes.map((recipe) => (
-              <div
-                key={recipe._id}
-                className="card bg-base-100 shadow-md hover:shadow-xl transition-shadow duration-300"
-              >
-                <figure>
-                  <img
-                    src={recipe.image}
-                    alt={recipe.title}
-                    className="w-full h-52 object-cover rounded-t-xl"
-                  />
-                </figure>
-                <div className="card-body p-5">
-                  <h2 className="card-title text-xl font-semibold text-primary">
-                    {recipe.title}
-                  </h2>
-                  <div className="text-sm space-y-1">
-                    <p>
-                      <strong>Ingredients:</strong> {recipe.ingredients}
-                    </p>
-                    <p>
-                      <strong>Instructions:</strong> {recipe.instructions}
-                    </p>
-                    <p>
-                      <strong>Cuisine:</strong> {recipe.cuisine}
-                    </p>
-                    <p>
-                      <strong>Prep Time:</strong> {recipe.prepTime} min
-                    </p>
-                    <p>
-                      <strong>Category:</strong>{" "}
-                      {recipe.selectedCategories?.join(", ") || "N/A"}
-                    </p>
-                    <p className="mt-2 text-sm font-semibold text-success">
-                      {recipe.likecount} people interested
-                    </p>
-                  </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <button
-                      className="btn btn-sm btn-outline btn-primary"
-                      onClick={() => {
-                        setEditingRecipe(recipe);
-                        document.getElementById("update_modal").showModal();
-                      }}
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() => deleteRecipe(recipe._id)}
-                      className="btn btn-sm btn-outline btn-error"
-                    >
-                      Delete
-                    </button>
-                    <Link
-                      to={`/recipes/${recipe._id}`}
-                      className="btn btn-sm btn-outline btn-info"
-                    >
-                      Details
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="table table-zebra">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Image</th>
+                  <th>Title</th>
+                  <th>Cuisine</th>
+                  <th>Prep Time</th>
+                
+                  <th>Likes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {myRecipes.map((recipe, index) => (
+                  <tr key={recipe._id}>
+                    <th>{index + 1}</th>
+                    <td>
+                      <img
+                        src={recipe.image}
+                        alt={recipe.title}
+                        className="w-20 h-16 object-cover rounded"
+                      />
+                    </td>
+                    <td>{recipe.title}</td>
+                    <td>{recipe.cuisine}</td>
+                    <td>{recipe.prepTime} min</td>
+                    
+                    <td>{recipe.likecount}</td>
+                    <td className="space-x-1">
+                      <button
+                        className="btn btn-sm btn-outline btn-primary"
+                        onClick={() => {
+                          setEditingRecipe(recipe);
+                          document.getElementById("update_modal").showModal();
+                        }}
+                      >
+                        Update
+                      </button>
+                      <button
+                        onClick={() => deleteRecipe(recipe._id)}
+                        className="btn btn-sm btn-outline btn-error"
+                      >
+                        Delete
+                      </button>
+                      <Link
+                        to={`/recipes/${recipe._id}`}
+                        className="btn btn-sm btn-outline btn-info"
+                      >
+                        Details
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>

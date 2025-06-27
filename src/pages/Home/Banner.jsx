@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
 import { useTypewriter, Cursor } from "react-simple-typewriter";
-import { Tooltip } from "react-tooltip";
 
 const Banner = () => {
   const [text] = useTypewriter({
@@ -49,12 +48,8 @@ const Banner = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Tooltip id="my-tooltip" />
           <Link
             to="/allrecipes"
-            data-tooltip-id="my-tooltip"
-            data-tooltip-content="Click here to see all recipes"
-            data-tooltip-place="top"
             className="inline-block rounded-md bg-indigo-600 px-8 py-3 text-lg font-semibold text-white shadow-lg
                        hover:bg-indigo-700 transition-colors duration-300 ease-in-out
                        focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600

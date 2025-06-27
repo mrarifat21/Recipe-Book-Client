@@ -57,25 +57,19 @@ const Navbar = () => {
       <li>
         <NavLink to="/allrecipes">All Recipes</NavLink>
       </li>
-      {user && (
-        <>
-          <li>
-            <NavLink to="/dashboard">Dashboard</NavLink>
-          </li>
-          {/* <li>
-            <NavLink to="/addrecipe">Add Recipe</NavLink>
-          </li>
-          <li>
-            <NavLink to="/myrecipes">My Recipes</NavLink>
-          </li> */}
-        </>
-      )}
       <li>
         <NavLink to="/about">About</NavLink>
       </li>
       <li>
         <NavLink to="/contact">Contact</NavLink>
       </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to="/dashboard">Dashboard</NavLink>
+          </li>
+        </>
+      )}
     </>
   );
 
@@ -144,6 +138,7 @@ const Navbar = () => {
                 <li className=" font-medium text-base-content">
                   {user.displayName}
                 </li>
+                
                 <li
                   
                     onClick={handleLogOut}
@@ -175,6 +170,7 @@ const Navbar = () => {
               <MdDarkMode size={22} />
             )}
           </button>
+         
         </div>
       </div>
     </div>

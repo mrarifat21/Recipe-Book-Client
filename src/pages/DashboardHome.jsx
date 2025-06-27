@@ -6,6 +6,7 @@ const DashboardHome = () => {
   const [stats, setStats] = useState({
     totalItems: 0,
     myItems: 0,
+    totalUsers: 0,
   });
 
   useEffect(() => {
@@ -13,12 +14,17 @@ const DashboardHome = () => {
       try {
         const res1 = await fetch(`${import.meta.env.VITE_API_URL}/addrecipes`);
         const all = await res1.json();
+
         const res2 = await fetch(`${import.meta.env.VITE_API_URL}/myrecipes/${user.email}`);
         const mine = await res2.json();
+
+        const res3 = await fetch(`${import.meta.env.VITE_API_URL}/users`);
+        const users = await res3.json();
 
         setStats({
           totalItems: all.length,
           myItems: mine.length,
+          totalUsers: users.length,
         });
       } catch (err) {
         console.error("Failed to load stats", err);
@@ -78,7 +84,14 @@ const DashboardHome = () => {
           </p>
         </div>
 
-        {/* Add more stats cards here if needed */}
+        <div className="bg-purple-100 dark:bg-purple-900 p-6 rounded-lg shadow-md text-center">
+          <h4 className="text-xl font-semibold mb-2 text-purple-800 dark:text-purple-400">
+            Total Users
+          </h4>
+          <p className="text-4xl font-bold text-purple-700 dark:text-purple-300">
+            {stats.totalUsers}
+          </p>
+        </div>
       </div>
     </div>
   );

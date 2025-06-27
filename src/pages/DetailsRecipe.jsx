@@ -1,29 +1,42 @@
-import React, { use, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import { AiFillLike } from "react-icons/ai";
 import { AuthContext } from "../context/AuthProvider";
 import { Tooltip } from "react-tooltip";
 
 const DetailsRecipe = () => {
-  const { user } = use(AuthContext);
+  const { user } = useContext(AuthContext);
   const recipe = useLoaderData();
   const [likecount, setLikecount] = useState(recipe.likecount || 0);
-  console.log(user.uid);
-  console.log(recipe.uid);
+  const [hasLiked, setHasLiked] = useState(false);
+
+  useEffect(() => {
+    // Optional: Load from localStorage or backend to persist likes
+    const likedKey = `liked_${recipe._id}_${user?.uid}`;
+    const likedStatus = localStorage.getItem(likedKey);
+    if (likedStatus === "true") {
+      setHasLiked(true);
+    }
+  }, [recipe._id, user?.uid]);
 
   const handleLike = async () => {
+    if (hasLiked || user?.uid === recipe.uid) return;
+
     const newLikeCount = likecount + 1;
     setLikecount(newLikeCount);
+    setHasLiked(true);
 
-    await fetch(
-      `${import.meta.env.VITE_API_URL}/addrecipes/like/${recipe._id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    // Optional: Save like status locally
+    const likedKey = `liked_${recipe._id}_${user.uid}`;
+    localStorage.setItem(likedKey, "true");
+
+    // Update server like count
+    await fetch(`${import.meta.env.VITE_API_URL}/addrecipes/like/${recipe._id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (
@@ -36,7 +49,7 @@ const DetailsRecipe = () => {
         <img
           src={recipe.image}
           alt={recipe.title}
-          className="w-full h-64 md:h-96 object-cover "
+          className="w-full h-64 md:h-96 object-cover"
         />
 
         <div className="p-6 space-y-5 text-base-content">
@@ -69,17 +82,23 @@ const DetailsRecipe = () => {
             <div className="text-center">
               <button
                 onClick={handleLike}
-                disabled={user.uid === recipe.uid}
+                disabled={user?.uid === recipe.uid || hasLiked}
                 data-tooltip-id="my-tooltip"
                 data-tooltip-content={
-                  user.uid == recipe.uid
+                  user?.uid === recipe.uid
                     ? "You can't like your own recipe"
+                    : hasLiked
+                    ? "You've already liked this"
                     : ""
                 }
-                className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 ${
+                  hasLiked
+                    ? "bg-primary text-white"
+                    : "bg-primary text-white hover:bg-primary/90"
+                } disabled:opacity-100 disabled:cursor-not-allowed`}
               >
                 <AiFillLike size={20} />
-                Like
+                {hasLiked ? "Liked" : "Like"}
               </button>
 
               <Tooltip id="my-tooltip" />

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink, Outlet } from "react-router";
-// import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar";
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -14,9 +14,12 @@ const Dashboard = () => {
 
   return (
     <>
+    <div className="w-11/12 mx-auto bg-black ">
+
+    
     {/* <Navbar></Navbar> */}
       {/* Mobile Top Bar */}
-      <div className="bg-base-100 text-base-content flex items-center justify-between p-4 md:hidden border-b border-base-300">
+      <div className="bg-base-100 text-base-content flex items-center justify-between p-4 md:hidden border-b border-base-300  ">
         <h2 className="text-lg font-bold">Dashboard</h2>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -93,6 +96,7 @@ const Dashboard = () => {
         <main className="flex-1 p-6 bg-base-100 dark:bg-base-200 rounded-lg shadow-md">
           <Outlet />
         </main>
+      </div>
       </div>
     </>
   );
