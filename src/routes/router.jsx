@@ -55,11 +55,7 @@ export const router = createBrowserRouter([
         path: "recipes/:id",
         loader: ({ params }) =>
           fetch(`${import.meta.env.VITE_API_URL}/addrecipes/${params.id}`),
-        element: (
-          <PrivateRoute>
-            <DetailsRecipe></DetailsRecipe>
-          </PrivateRoute>
-        ),
+        element: <DetailsRecipe></DetailsRecipe>,
       },
 
       {
