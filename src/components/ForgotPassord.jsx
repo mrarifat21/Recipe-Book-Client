@@ -1,6 +1,32 @@
+import { use } from "react";
 import { Link } from "react-router";
-
+import { AuthContext } from "../context/AuthProvider";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
 const ForgotPassword = () => {
+  const { ForgotPassword } = use(AuthContext);
+  const handleForgotPassword = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    ForgotPassword(email)
+      .then(() => {
+        e.target.reset();
+
+        Swal.fire({
+          icon: "success",
+          title: "Reset Link Sent!",
+          text: "Please check your email.",
+          timer: 2500,
+          showConfirmButton: false,
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+        icon: "error",
+        title: "Failed!",
+        text: error.message,
+      });
+      });
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-200 px-4">
       <div className="w-full max-w-md shadow-lg bg-base-100 p-8 rounded-xl border border-gray-300 dark:border-primary">
@@ -8,7 +34,7 @@ const ForgotPassword = () => {
           Forgot Password
         </h2>
 
-        <form className="space-y-4">
+        <form onSubmit={handleForgotPassword} className="space-y-4">
           <div>
             <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">
               Email Address
