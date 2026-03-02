@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
+import PasswordInput from "../components/PasswordInput";
 
 const Registration = () => {
   const { createUserWithEmail, createUserWithGmail, setUser, updateUser } =
@@ -158,7 +159,7 @@ const Registration = () => {
               name="photoURL"
               placeholder="https://example.com/photo.jpg"
               className="input input-bordered w-full rounded-md border-indigo-300 focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-              required
+              
             />
           </div>
 
@@ -166,12 +167,13 @@ const Registration = () => {
             <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">
               Password
             </label>
-            <input
-              type="password"
+         
+              <PasswordInput
+              id="password"
               name="password"
-              placeholder="••••••••"
-              className="input input-bordered w-full rounded-md border-indigo-300 focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+              placeholder="Your Password"
               required
+              className="rounded-md border-indigo-300 focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
 

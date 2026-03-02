@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
+import PasswordInput from "../components/PasswordInput";
 
 const LogIn = () => {
   const { LogIn, createUserWithGmail } = use(AuthContext);
@@ -98,22 +99,25 @@ const LogIn = () => {
             >
               Password
             </label>
-            <input
+    
+            <PasswordInput
               id="password"
-              type="password"
               name="password"
               placeholder="Your Password"
-              className="input input-bordered w-full rounded-md border-indigo-300 focus:border-none focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
               required
+              className="rounded-md border-indigo-300 focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
             />
           </div>
 
           {/* Forgot Password */}
           <div className="text-right">
-            <Link to='/forgotPassword'> 
-            <button type="button" className="link text-sm text-indigo-600 dark:text-indigo-400">
-              Forgot Password?
-            </button>
+            <Link to="/forgotPassword">
+              <button
+                type="button"
+                className="link text-sm text-indigo-600 dark:text-indigo-400"
+              >
+                Forgot Password?
+              </button>
             </Link>
           </div>
 
@@ -140,7 +144,10 @@ const LogIn = () => {
         {/* Register */}
         <p className="text-sm text-center mt-6 text-gray-700 dark:text-gray-300">
           Don’t have an account?{" "}
-          <Link to="/registration" className="link font-medium text-indigo-600 dark:text-indigo-400">
+          <Link
+            to="/registration"
+            className="link font-medium text-indigo-600 dark:text-indigo-400"
+          >
             Register
           </Link>
         </p>
