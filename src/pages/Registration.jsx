@@ -5,6 +5,9 @@ import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
 import PasswordInput from "../components/PasswordInput";
 
+const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${
+  import.meta.env.VITE_Image_Upload_Key
+}`;
 const Registration = () => {
   const { createUserWithEmail, createUserWithGmail, setUser, updateUser } =
     use(AuthContext);
@@ -16,12 +19,10 @@ const Registration = () => {
   const handleSignIn = (e) => {
     e.preventDefault();
     const form = e.target;
-    const formData = new FormData(form);
-    const { email, password, ...restFormData } = Object.fromEntries(
-      formData.entries()
-    );
+    const email = form.email.value;
+    const password = form.password.value;
     const name = form.name.value;
-    const photoURL = form.photoURL.value;
+    const imageFile = form.image.files[0];
 
     if (!/[A-Z]/.test(password)) {
       setErrorMessage("Password must contain at least one uppercase letter.");
@@ -37,42 +38,74 @@ const Registration = () => {
     }
     setErrorMessage("");
 
-    createUserWithEmail(email, password)
-      .then((result) => {
-        const user = result.user;
-        updateUser({ displayName: name, photoURL })
-          .then(() => {
-            setUser({ ...user, displayName: name, photoURL });
-            navigate(location.state || "/");
+    // Common user creation function
+    const createUser = (photoURL) => {
+      createUserWithEmail(email, password)
+        .then((result) => {
+          const user = result.user;
+
+          updateUser({ displayName: name, ...(photoURL && { photoURL }) })
+            .then(() => {
+              setUser({ ...user, displayName: name, photoURL });
+              navigate(location.state || "/");
+            })
+            .catch(() => {
+              setUser(user);
+            });
+
+          const userProfile = {
+            email,
+            name,
+            photoURL,
+            creationTime: result.user?.metadata.creationTime,
+            lastSignInTime: result.user?.metadata.lastSignInTime,
+            uid: result.user.uid,
+            provider: "email",
+          };
+
+          fetch(`${import.meta.env.VITE_API_URL}/users`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(userProfile),
           })
-          .catch(() => {
-            setUser(user);
-          });
-
-        const userProfile = {
-          email,
-          ...restFormData,
-          creationTime: result.user?.metadata.creationTime,
-          lastSignInTime: result.user?.metadata.lastSignInTime,
-          uid: result.user.uid,
-          provider: "email",
-        };
-
-        fetch(`${import.meta.env.VITE_API_URL}/users`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(userProfile),
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                toast.success("SignIn successfully!");
+              }
+            });
         })
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.insertedId) toast.success("SignIn successfully!");
-          });
+        .catch((error) => {
+          toast.error(error.code);
+        });
+    };
+    // If image exists → upload first
+    if (imageFile) {
+      const imageFormData = new FormData();
+      imageFormData.append("image", imageFile);
+
+      fetch(imageUploadUrl, {
+        method: "POST",
+        body: imageFormData,
       })
-      .catch((error) => {
-        toast.error(error.code);
-      });
+        .then((res) => res.json())
+        .then((imgData) => {
+          if (imgData.success) {
+            const photoURL = imgData.data.display_url;
+            createUser(photoURL);
+          } else {
+            toast.error("Image upload failed!");
+          }
+        })
+        .catch(() => {
+          toast.error("Image upload failed!");
+        });
+    } else {
+      // No image uploaded → create user without photo
+      createUser("");
+    }
   };
 
   const handelgoogleSignIN = () => {
@@ -152,14 +185,13 @@ const Registration = () => {
 
           <div>
             <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">
-              Photo URL
+              Upload Photo
             </label>
             <input
-              type="text"
-              name="photoURL"
-              placeholder="https://example.com/photo.jpg"
-              className="input input-bordered w-full rounded-md border-indigo-300 focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
-              
+              type="file"
+              name="image"
+              accept="image/*"
+              className="file-input file-input-bordered w-full"
             />
           </div>
 
@@ -167,8 +199,8 @@ const Registration = () => {
             <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">
               Password
             </label>
-         
-              <PasswordInput
+
+            <PasswordInput
               id="password"
               name="password"
               placeholder="Your Password"

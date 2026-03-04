@@ -11,32 +11,51 @@ const AddRecipe = () => {
     const formData = new FormData(form);
     const selectedCategories = formData.getAll("categories");
     const newRecipe = Object.fromEntries(formData.entries());
+    const imageFile = formData.get("image");
 
-    const addinfo = {
-      ...newRecipe,
-      selectedCategories,
-      likecount: 0,
-      userEmail: user.email,
-      uid: user.uid,
-    };
+    const imageFormData = new FormData();
+    imageFormData.append("image", imageFile);
 
-    fetch(`${import.meta.env.VITE_API_URL}/addrecipes`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
+    fetch(
+      `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_Image_Upload_Key}`,
+      {
+        method: "POST",
+        body: imageFormData,
       },
-      body: JSON.stringify(addinfo),
-    })
+    )
       .then((res) => res.json())
-      .then((data) => {
-        if (data.insertedId) {
-          Swal.fire({
-            icon: "success",
-            title: "Your recipe is added",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          form.reset();
+      .then((imgData) => {
+        if (imgData.success) {
+          const imageUrl = imgData.data.display_url;
+
+          const addinfo = {
+            ...newRecipe,
+            image: imageUrl,
+            selectedCategories,
+            likecount: 0,
+            userEmail: user.email,
+            uid: user.uid,
+          };
+
+          fetch(`${import.meta.env.VITE_API_URL}/addrecipes`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(addinfo),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                Swal.fire({
+                  icon: "success",
+                  title: "Your recipe is added",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                form.reset();
+              }
+            });
         }
       });
   };
@@ -76,10 +95,10 @@ const AddRecipe = () => {
           </label>
           <input
             id="image"
-            type="url"
+            type="file"
             name="image"
-            placeholder="https://example.com/image.jpg"
-            className="input input-bordered w-full rounded-md border-indigo-300 focus:border-none focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+            accept="image/*"
+            className="file-input file-input-bordered input input-bordered w-full rounded-md border-indigo-300 focus:border-none focus:outline-indigo-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
             required
           />
         </div>
@@ -171,7 +190,7 @@ const AddRecipe = () => {
             Categories
           </p>
           <div className="flex flex-wrap gap-4">
-            {["Breakfast", "Lunch", "Dinner", "Dessert", "Vegan"].map((cat) => (
+            {["Breakfast", "Lunch", "Dinner", "Dessert"].map((cat) => (
               <label
                 key={cat}
                 htmlFor={`category-${cat.toLowerCase()}`}
